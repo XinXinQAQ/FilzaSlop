@@ -12,8 +12,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Theos and SDK
+      - name: Install Theos and packaging tools
         run: |
+          brew install dpkg ldid
           git clone --depth=1 https://github.com/theos/theos.git "$HOME/theos"
           mkdir -p "$HOME/theos/sdks"
           ln -s "$(xcrun --sdk iphoneos --show-sdk-path)" "$HOME/theos/sdks/iPhoneOS.sdk"
