@@ -24,11 +24,13 @@ jobs:
           export THEOS="$HOME/theos"
           make clean package FINALPACKAGE=1
 
-      - name: Generate checksums
+      - name: Collect injection files and checksums
         run: |
           mkdir -p artifacts
           cp packages/*.deb artifacts/
-          shasum -a 256 artifacts/*.deb > artifacts/SHA256SUMS
+          cp .theos/obj/FilzaApplySandboxExt.dylib artifacts/
+          cp FilzaApplySandboxExt.plist artifacts/
+          shasum -a 256 artifacts/* > artifacts/SHA256SUMS
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
