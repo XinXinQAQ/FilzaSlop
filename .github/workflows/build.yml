@@ -19,9 +19,9 @@ jobs:
           ln -s "$(xcrun --sdk iphoneos --show-sdk-path)" "$HOME/theos/sdks/iPhoneOS.sdk"
 
       - name: Build package
-        env:
-          THEOS: ${{ runner.home }}/theos
-        run: make clean package FINALPACKAGE=1
+        run: |
+          export THEOS="$HOME/theos"
+          make clean package FINALPACKAGE=1
 
       - name: Generate checksums
         run: |
