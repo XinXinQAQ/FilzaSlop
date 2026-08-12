@@ -719,6 +719,7 @@ static NSArray<NSString *> *MCMResearchTargetIdentifiers(void)
         @"com.yourcompany.PPClient",
         @"com.bankofamerica.BofA",
         @"com.apple.mobilenotes",
+        @"com.tencent.xin",
         @"com.apple.mobilesafari",
         @"local.research.SandboxCanaryVictim",
     ];

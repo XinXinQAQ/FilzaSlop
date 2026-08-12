@@ -1,0 +1,37 @@
+name: Build FilzaSlop tweak
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Theos and SDK
+        run: |
+          git clone --depth=1 https://github.com/theos/theos.git "$HOME/theos"
+          mkdir -p "$HOME/theos/sdks"
+          ln -s "$(xcrun --sdk iphoneos --show-sdk-path)" "$HOME/theos/sdks/iPhoneOS.sdk"
+
+      - name: Build package
+        env:
+          THEOS: ${{ runner.home }}/theos
+        run: make clean package FINALPACKAGE=1
+
+      - name: Generate checksums
+        run: |
+          mkdir -p artifacts
+          cp packages/*.deb artifacts/
+          shasum -a 256 artifacts/*.deb > artifacts/SHA256SUMS
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: FilzaSlop-tweak
+          path: artifacts/
+          if-no-files-found: error
